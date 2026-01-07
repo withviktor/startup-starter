@@ -1,4 +1,4 @@
-import "@identity.goodhost.cz/env/web";
+import "@startup-starter/env/web";
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
