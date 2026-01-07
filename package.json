@@ -1,29 +1,29 @@
 {
-  "name": "startup-starter",
-  "private": true,
-  "workspaces": [
-    "apps/*",
-    "packages/*"
-  ],
-  "type": "module",
-  "scripts": {
-    "dev": "turbo dev",
-    "build": "turbo build",
-    "check-types": "turbo check-types",
-    "dev:native": "turbo -F native dev",
-    "dev:web": "turbo -F web dev",
-    "check": "biome check --write ."
-  },
-  "dependencies": {
-    "@startup-starter/env": "workspace:*",
-    "dotenv": "catalog:",
-    "zod": "catalog:"
-  },
-  "devDependencies": {
-    "@biomejs/biome": "^2.2.0",
-    "@startup-starter/config": "workspace:*",
-    "turbo": "^2.6.3",
-    "typescript": "catalog:"
-  },
-  "packageManager": "pnpm@10.22.0"
+	"name": "startup-starter",
+	"private": true,
+	"workspaces": [
+		"apps/*",
+		"packages/*"
+	],
+	"type": "module",
+	"scripts": {
+		"dev": "turbo dev",
+		"build": "turbo build",
+		"check-types": "turbo check-types",
+		"dev:server": "turbo -F server dev",
+		"dev:web": "turbo -F web dev",
+		"check": "biome check --write ."
+	},
+	"dependencies": {
+		"@startup-starter/env": "workspace:*",
+		"dotenv": "catalog:",
+		"zod": "catalog:"
+	},
+	"devDependencies": {
+		"@biomejs/biome": "^2.2.0",
+		"@startup-starter/config": "workspace:*",
+		"turbo": "^2.6.3",
+		"typescript": "catalog:"
+	},
+	"packageManager": "pnpm@10.22.0"
 }

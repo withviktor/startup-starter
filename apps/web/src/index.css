@@ -2,15 +2,15 @@
 @import "tw-animate-css";
 
 @theme inline {
-  --font-sans: var(--font-geist-sans), sans-serif;
-  --font-mono: var(--font-geist-mono), monospace;
+	--font-sans: var(--font-geist-sans), sans-serif;
+	--font-mono: var(--font-geist-mono), monospace;
 }
 
 @layer base {
-  body {
-    @apply font-sans;
-  }
-  html {
-    @apply font-sans;
-  }
+	body {
+		@apply font-sans;
+	}
+	html {
+		@apply font-sans;
+	}
 }

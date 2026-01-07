@@ -1,21 +1,21 @@
 {
-  "name": "@startup-starter/env",
-  "version": "0.0.0",
-  "private": true,
-  "type": "module",
-  "exports": {
-    "./web": "./src/web.ts",
-    "./server": "./src/server.ts"
-  },
-  "dependencies": {
-    "@t3-oss/env-core": "^0.13.1",
-    "@t3-oss/env-nextjs": "^0.13.1",
-    "dotenv": "catalog:",
-    "zod": "catalog:"
-  },
-  "devDependencies": {
-    "@startup-starter/config": "workspace:*",
-    "@types/node": "^20",
-    "typescript": "catalog:"
-  }
+	"name": "@startup-starter/env",
+	"version": "0.0.0",
+	"private": true,
+	"type": "module",
+	"exports": {
+		"./web": "./src/web.ts",
+		"./server": "./src/server.ts"
+	},
+	"dependencies": {
+		"@t3-oss/env-core": "^0.13.1",
+		"@t3-oss/env-nextjs": "^0.13.1",
+		"dotenv": "catalog:",
+		"zod": "catalog:"
+	},
+	"devDependencies": {
+		"@startup-starter/config": "workspace:*",
+		"@types/node": "^20",
+		"typescript": "catalog:"
+	}
 }
