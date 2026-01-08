@@ -7,6 +7,7 @@ export const env = createEnv({
 		PORT: z.string().default("3000"),
 		CORS_ORIGIN: z.url(),
 		BETTER_AUTH_SECRET: z.string(),
+		BETTER_AUTH_URL: z.string(),
 		DATABASE_URL: z.string(),
 		NODE_ENV: z
 			.enum(["development", "production", "test"])
