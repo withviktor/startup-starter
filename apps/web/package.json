@@ -26,7 +26,7 @@
 		"@startup-starter/env": "workspace:*",
 		"@tanstack/react-form": "^1.27.3",
 		"babel-plugin-react-compiler": "^1.0.0",
-		"better-auth": "1.4.5",
+		"better-auth": "^v1.4.1",
 		"class-variance-authority": "^0.7.1",
 		"clsx": "^2.1.1",
 		"cmdk": "^1.1.1",
