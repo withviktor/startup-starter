@@ -1,7 +1,9 @@
 "use client";
 
 import { Loader2 } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import {
 	Card,
@@ -20,6 +22,7 @@ export default function SignIn() {
 	const [password, setPassword] = useState("");
 	const [loading, setLoading] = useState(false);
 	const [rememberMe, setRememberMe] = useState(false);
+	const router = useRouter();
 
 	return (
 		<Card className="max-w-md">
@@ -81,11 +84,18 @@ export default function SignIn() {
 									password,
 								},
 								{
-									onRequest: (ctx) => {
+									onRequest: () => {
 										setLoading(true);
 									},
-									onResponse: (ctx) => {
+									onResponse: () => {
 										setLoading(false);
+									},
+									onError: (ctx) => {
+										toast.error(ctx.error.message);
+									},
+									onSuccess: async () => {
+										router.push("/");
+										toast.success("You have successfully signed in.");
 									},
 								},
 							);

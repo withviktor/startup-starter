@@ -1,5 +1,4 @@
-"use client";
-import Link from "next/link";
+import UserSession from "@/components/ui/auth/user-session";
 
 export default function Home() {
 	return (
@@ -7,8 +6,7 @@ export default function Home() {
 			<div className="grid gap-6">
 				<section className="rounded-lg p-4">
 					<h2 className="mb-2 font-medium">Welcome to Startup Starter</h2>
-					<Link href="/sign-in">Sign In</Link>
-					<Link href="/sign-up">Sign Up</Link>
+					<UserSession />
 				</section>
 			</div>
 		</div>
