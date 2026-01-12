@@ -19,4 +19,5 @@ export const auth = betterAuth({
         })
     ],
     hooks: {},
+    trustedOrigins: [env.CORS_ORIGIN],
 });
