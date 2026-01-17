@@ -7,7 +7,8 @@ import { getSeoMetadata } from "@/lib/seo";
 
 export const metadata = getSeoMetadata({
 	title: "Ship your startup in days, not months",
-	description: "The Next.js boilerplate with authentication, payments, and beautiful UI — all configured and ready to go.",
+	description:
+		"The Next.js boilerplate with authentication, payments, and beautiful UI — all configured and ready to go.",
 });
 
 export default function Home() {
