@@ -19,7 +19,7 @@ const socialProviders: SocialProvider[] = [];
 if (config.auth.providers.google) {
 	if (!env.GOOGLE_CLIENT_ID || !env.GOOGLE_CLIENT_SECRET) {
 		throw new Error(
-			"Google OAuth is enabled but GOOGLE_CLIENT_ID or GOOGLE_CLIENT_SECRET is missing"
+			"Google OAuth is enabled but GOOGLE_CLIENT_ID or GOOGLE_CLIENT_SECRET is missing",
 		);
 	}
 	socialProviders.push({
@@ -33,7 +33,7 @@ if (config.auth.providers.google) {
 if (config.auth.providers.github) {
 	if (!env.GITHUB_CLIENT_ID || !env.GITHUB_CLIENT_SECRET) {
 		throw new Error(
-			"GitHub OAuth is enabled but GITHUB_CLIENT_ID or GITHUB_CLIENT_SECRET is missing"
+			"GitHub OAuth is enabled but GITHUB_CLIENT_ID or GITHUB_CLIENT_SECRET is missing",
 		);
 	}
 	socialProviders.push({
@@ -89,7 +89,7 @@ export const auth = betterAuth({
 						};
 						return acc;
 					},
-					{} as Record<string, { clientId: string; clientSecret: string }>
+					{} as Record<string, { clientId: string; clientSecret: string }>,
 				)
 			: undefined,
 	plugins: [
@@ -98,5 +98,6 @@ export const auth = betterAuth({
 		}),
 		...(stripePlugin ? [stripePlugin] : []),
 	],
+	hooks: {},
 	trustedOrigins: [env.CORS_ORIGIN],
 });

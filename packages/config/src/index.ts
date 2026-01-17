@@ -1,11 +1,12 @@
-import type { Config } from "./types.js";
+import type { Config } from "./types";
 
-export type * from "./types.js";
+export type * from "./types";
 
 export const config: Config = {
 	// General
 	appName: "StartupStarter",
-	appDescription: "Your startup starter kit for building modern web applications",
+	appDescription:
+		"Your startup starter kit for building modern web applications",
 	domainName: "example.com",
 
 	// Auth (better-auth)
@@ -52,7 +53,8 @@ export const config: Config = {
 	seo: {
 		defaultTitle: "StartupStarter",
 		titleTemplate: "%s | StartupStarter",
-		defaultDescription: "Your startup starter kit for building modern web applications",
+		defaultDescription:
+			"Your startup starter kit for building modern web applications",
 		defaultKeywords: ["startup", "nextjs", "react", "typescript"],
 		twitterHandle: "@yourtwitterhandle",
 		ogImage: "/og-image.png",

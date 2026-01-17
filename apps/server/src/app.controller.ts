@@ -5,12 +5,12 @@ import { AppService } from "./app.service";
 
 @Controller()
 export class AppController {
-	constructor(private readonly appService: AppService) { }
+	constructor(private readonly appService: AppService) {}
 
 	@Get()
 	@ApiResponse({
 		status: 200,
-		description: 'Responds with a string',
+		description: "Responds with a string",
 		type: String,
 	})
 	@AllowAnonymous()

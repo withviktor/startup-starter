@@ -8,6 +8,7 @@ import { toast } from "sonner";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { signOut, useSession } from "@/lib/auth-client";
+import { Skeleton } from "../ui/skeleton";
 
 export function Header() {
 	const { data: session, isPending } = useSession();
@@ -42,7 +43,7 @@ export function Header() {
 					</Link>
 
 					{isPending ? (
-						<div className="h-9 w-24 animate-pulse rounded-full bg-muted" />
+						<Skeleton className="h-9 w-32 rounded-full bg-muted" />
 					) : session ? (
 						<div className="flex items-center gap-3">
 							<Avatar className="size-8 ring-2 ring-primary/20">
