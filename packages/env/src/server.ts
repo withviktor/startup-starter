@@ -13,6 +13,14 @@ export const env = createEnv({
 		NODE_ENV: z
 			.enum(["development", "production", "test"])
 			.default("development"),
+		// OAuth providers (optional - only required if enabled in config)
+		GOOGLE_CLIENT_ID: z.string().optional(),
+		GOOGLE_CLIENT_SECRET: z.string().optional(),
+		GITHUB_CLIENT_ID: z.string().optional(),
+		GITHUB_CLIENT_SECRET: z.string().optional(),
+		// Stripe (optional - only required if enabled in config)
+		STRIPE_SECRET_KEY: z.string().optional(),
+		STRIPE_WEBHOOK_SECRET: z.string().optional(),
 	},
 	runtimeEnv: process.env,
 	emptyStringAsUndefined: true,

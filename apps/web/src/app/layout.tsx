@@ -1,9 +1,8 @@
-import type { Metadata } from "next";
-
 import { Geist, Geist_Mono } from "next/font/google";
 
 import "../index.css";
 import Providers from "@/components/providers";
+import { getSeoMetadata } from "@/lib/seo";
 
 const geistSans = Geist({
 	variable: "--font-geist-sans",
@@ -15,10 +14,7 @@ const geistMono = Geist_Mono({
 	subsets: ["latin"],
 });
 
-export const metadata: Metadata = {
-	title: "identity.goodhost.cz",
-	description: "identity.goodhost.cz",
-};
+export const metadata = getSeoMetadata();
 
 export default function RootLayout({
 	children,

@@ -1,5 +1,8 @@
 {
 	"name": "@startup-starter/config",
 	"version": "0.0.0",
-	"private": true
+	"private": true,
+	"exports": {
+		".": "./src/index.ts"
+	}
 }

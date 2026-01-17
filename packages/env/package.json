@@ -2,7 +2,6 @@
 	"name": "@startup-starter/env",
 	"version": "0.0.0",
 	"private": true,
-	"type": "module",
 	"exports": {
 		"./web": "./src/web.ts",
 		"./server": "./src/server.ts"
