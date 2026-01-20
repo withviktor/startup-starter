@@ -4,7 +4,8 @@
 	"private": true,
 	"exports": {
 		"./web": "./src/web.ts",
-		"./server": "./src/server.ts"
+		"./server": "./src/server.ts",
+		"./transactional": "./src/transactional.ts"
 	},
 	"dependencies": {
 		"@t3-oss/env-core": "^0.13.1",
