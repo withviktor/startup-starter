@@ -6,50 +6,34 @@ import Link from "next/link";
 import { useState } from "react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
-import { authClient, useSession } from "@/lib/auth-client";
+import { authClient } from "@/lib/auth-client";
 
 export function Hero() {
-	const { data: session } = useSession();
 	const [isLoading, setIsLoading] = useState(false);
 
 	const handleGetStarted = async () => {
-		// If Stripe is not enabled or no paid plan, just redirect to sign-up
-		if (!config.stripe.enabled) {
+		// If Polar is not enabled or no paid plan, just redirect to sign-up
+		if (!config.polar) {
 			window.location.href = "/sign-up";
 			return;
 		}
 
 		// Find the featured plan or first paid plan
 		const plan =
-			config.stripe.plans[config.stripe.featuredPlanIndex] ||
-			config.stripe.plans.find((p) => p.price > 0);
+			config.polar.plans[config.polar.featuredPlanIndex] ||
+			config.polar.plans.find((p) => p.price > 0);
 
-		if (!plan?.priceId) {
-			window.location.href = "/sign-up";
-			return;
-		}
-
-		// If not signed in, redirect to sign-up
-		if (!session) {
-			window.location.href = "/sign-up";
+		if (!plan.productId) {
+			toast.error("Subscriptions are not configured");
 			return;
 		}
 
 		setIsLoading(true);
 
 		try {
-			// @ts-expect-error - Stripe plugin methods are dynamically added
-			const result = await authClient.subscription.upgrade({
-				plan: plan.name,
-				successUrl: `${window.location.origin}/dashboard?success=true`,
-				cancelUrl: `${window.location.origin}/?canceled=true`,
+			await authClient.checkoutEmbed({
+				slug: plan.slug,
 			});
-
-			if (result.error) {
-				toast.error(result.error.message || "Failed to start checkout");
-			} else if (result.data?.url) {
-				window.location.href = result.data.url;
-			}
 		} catch {
 			toast.error("Something went wrong. Please try again.");
 		} finally {

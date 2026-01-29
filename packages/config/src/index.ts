@@ -19,16 +19,16 @@ export const config: Config = {
 		},
 	},
 
-	// Stripe
-	stripe: {
-		enabled: false,
+	// Polar
+	polar: {
 		featuredPlanIndex: 1,
 		plans: [
 			{
 				name: "Free",
 				description: "Perfect for getting started",
 				price: 0,
-				priceId: "",
+				productId: "d09050f0-031c-4c47-84f2-b8e10804a77e",
+				slug: "free",
 				features: ["Feature 1", "Feature 2"],
 			},
 			{
@@ -36,7 +36,8 @@ export const config: Config = {
 				description: "For growing businesses",
 				price: 15.99,
 				originalPrice: 29.99,
-				priceId: "",
+				productId: "d8aadf95-2d66-4a48-886c-b1b3674c2a77",
+				slug: "pro",
 				features: ["Everything in Free", "Feature 3", "Feature 4"],
 			},
 		],

@@ -2,44 +2,29 @@
 
 import { config } from "@startup-starter/config";
 import { Check, Loader2, Sparkles, Zap } from "lucide-react";
-import Link from "next/link";
 import { useState } from "react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
-import { authClient, useSession } from "@/lib/auth-client";
+import { authClient } from "@/lib/auth-client";
 import { cn } from "@/lib/utils";
 
 export function Pricing() {
-	const { plans, featuredPlanIndex, enabled: stripeEnabled } = config.stripe;
-	const { data: session } = useSession();
+	const { plans, featuredPlanIndex } = config.polar;
 	const [loadingPlan, setLoadingPlan] = useState<string | null>(null);
 
-	const handleSubscribe = async (priceId: string, planName: string) => {
-		if (!session) {
-			toast.error("Please sign in to subscribe");
-			return;
-		}
+	const handleSubscribe = async (productId: string, slug: string) => {
 
-		if (!stripeEnabled || !priceId) {
+		if (!productId) {
 			toast.error("Subscriptions are not configured");
 			return;
 		}
 
-		setLoadingPlan(planName);
+		setLoadingPlan(slug);
 
 		try {
-			// @ts-expect-error - Stripe plugin methods are dynamically added
-			const result = await authClient.subscription.upgrade({
-				plan: planName,
-				successUrl: `${window.location.origin}/dashboard?success=true`,
-				cancelUrl: `${window.location.origin}/pricing?canceled=true`,
+			await authClient.checkoutEmbed({
+				slug: slug,
 			});
-
-			if (result.error) {
-				toast.error(result.error.message || "Failed to start checkout");
-			} else if (result.data?.url) {
-				window.location.href = result.data.url;
-			}
 		} catch {
 			toast.error("Something went wrong. Please try again.");
 		} finally {
@@ -75,7 +60,7 @@ export function Pricing() {
 				<div className="mx-auto grid max-w-4xl gap-6 lg:grid-cols-2">
 					{plans.map((plan, index) => {
 						const isFeatured = index === featuredPlanIndex;
-						const isLoading = loadingPlan === plan.name;
+						const isLoading = loadingPlan === plan.slug;
 						const hasDiscount =
 							plan.originalPrice && plan.originalPrice > plan.price;
 
@@ -151,37 +136,27 @@ export function Pricing() {
 								</ul>
 
 								<div className="mt-auto space-y-3">
-									{plan.price === 0 ? (
-										<Button
-											className={cn(
-												"h-12 w-full rounded-xl font-semibold text-base",
-												isFeatured && "bg-primary hover:bg-primary/90",
-											)}
-											size="lg"
-											asChild
-										>
-											<Link href="/sign-up">Get started free</Link>
-										</Button>
-									) : (
-										<Button
-											className={cn(
-												"h-12 w-full rounded-xl font-semibold text-base transition-colors",
-												isFeatured && "bg-primary hover:bg-primary/90",
-											)}
-											size="lg"
-											disabled={isLoading || !plan.priceId}
-											onClick={() => handleSubscribe(plan.priceId, plan.name)}
-										>
-											{isLoading ? (
-												<Loader2 className="size-5 animate-spin" />
-											) : (
-												<>
-													<Sparkles className="mr-2 size-4" />
-													Get {config.appName}
-												</>
-											)}
-										</Button>
-									)}
+									<Button
+										className={cn(
+											"h-12 w-full rounded-xl font-semibold text-base transition-colors",
+											isFeatured && "bg-primary hover:bg-primary/90",
+										)}
+										size="lg"
+										disabled={isLoading || !plan.productId}
+										onClick={() => handleSubscribe(plan.productId, plan.slug)}
+									>
+										{isLoading ? (
+											<Loader2 className="size-5 animate-spin" />
+										) : (
+											<>
+												<Sparkles className="mr-2 size-4" />
+												{plan.price === 0
+													? "Get started free"
+													: `Get ${config.appName}`}
+											</>
+										)}
+									</Button>
+
 									<p className="text-center text-muted-foreground text-xs">
 										{plan.price === 0
 											? "No credit card required"

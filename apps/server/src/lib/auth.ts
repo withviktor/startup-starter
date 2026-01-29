@@ -1,10 +1,14 @@
-import { stripe } from "@better-auth/stripe";
+import {
+	checkout,
+	polar,
+	portal
+} from "@polar-sh/better-auth";
+import { Polar } from "@polar-sh/sdk";
 import { config } from "@startup-starter/config";
 import { env } from "@startup-starter/env/server";
 import { betterAuth } from "better-auth";
 import { prismaAdapter } from "better-auth/adapters/prisma";
 import { openAPI } from "better-auth/plugins";
-import Stripe from "stripe";
 import prisma from "./prisma";
 
 // Build social providers based on config
@@ -43,32 +47,14 @@ if (config.auth.providers.github) {
 		clientSecret: env.GITHUB_CLIENT_SECRET,
 	});
 }
-
-// Create Stripe client if enabled
-const stripePlugin = config.stripe.enabled
-	? (() => {
-			if (!env.STRIPE_SECRET_KEY) {
-				throw new Error("Stripe is enabled but STRIPE_SECRET_KEY is missing");
-			}
-			const stripeClient = new Stripe(env.STRIPE_SECRET_KEY, {
-				apiVersion: "2025-12-15.clover",
-			});
-			return stripe({
-				stripeClient,
-				stripeWebhookSecret: env.STRIPE_WEBHOOK_SECRET || "",
-				createCustomerOnSignUp: true,
-				subscription: {
-					enabled: true,
-					plans: config.stripe.plans
-						.filter((plan) => plan.priceId)
-						.map((plan) => ({
-							name: plan.name,
-							priceId: plan.priceId,
-						})),
-				},
-			});
-		})()
-	: null;
+// Create Polar client
+const polarClient = new Polar({
+	accessToken: env.POLAR_ACCESS_TOKEN,
+	// Use 'sandbox' if you're using the Polar Sandbox environment
+	// Remember that access tokens, products, etc. are completely separated between environments.
+	// Access tokens obtained in Production are for instance not usable in the Sandbox environment.
+	server: "sandbox",
+});
 
 export const auth = betterAuth({
 	basePath: env.BETTER_AUTH_BASE_PATH,
@@ -82,21 +68,35 @@ export const auth = betterAuth({
 	socialProviders:
 		socialProviders.length > 0
 			? socialProviders.reduce(
-					(acc, provider) => {
-						acc[provider.id] = {
-							clientId: provider.clientId,
-							clientSecret: provider.clientSecret,
-						};
-						return acc;
-					},
-					{} as Record<string, { clientId: string; clientSecret: string }>,
-				)
+				(acc, provider) => {
+					acc[provider.id] = {
+						clientId: provider.clientId,
+						clientSecret: provider.clientSecret,
+					};
+					return acc;
+				},
+				{} as Record<string, { clientId: string; clientSecret: string }>,
+			)
 			: undefined,
 	plugins: [
 		openAPI({
 			disableDefaultReference: true,
 		}),
-		...(stripePlugin ? [stripePlugin] : []),
+		polar({
+			client: polarClient,
+			createCustomerOnSignUp: true,
+			use: [
+				checkout({
+					authenticatedUsersOnly: true,
+					successUrl: "/dashboard?checkout=success",
+					products: (config.polar.plans || []).map((plan) => ({
+						productId: plan.productId,
+						slug: plan.slug,
+					})),
+				}),
+				portal(),
+			],
+		})
 	],
 	hooks: {},
 	trustedOrigins: [env.CORS_ORIGIN],

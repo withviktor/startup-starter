@@ -9,7 +9,7 @@ export type AuthConfig = {
 	providers: Record<OAuthProvider, boolean>;
 };
 
-export type StripePlan = {
+export type PolarPlan = {
 	/** Plan display name */
 	name: string;
 	/** Plan description */
@@ -18,20 +18,20 @@ export type StripePlan = {
 	price: number;
 	/** Original price before discount (optional, shows strikethrough price) */
 	originalPrice?: number;
-	/** Stripe price ID (e.g., price_1234567890) */
-	priceId: string;
+	/** Polar product ID (e.g., e651f46d-ac20-4f26-b769-ad088b123df2) */
+	productId: string;
+	/** Polar product slug */
+	slug: string;
 	/** List of features included in this plan */
 	features: string[];
-};
+}
 
-export type StripeConfig = {
-	/** Enable Stripe payments */
-	enabled: boolean;
+export type PolarConfig = {
 	/** Index of the featured/recommended plan (0-based) */
 	featuredPlanIndex: number;
 	/** Available pricing plans */
-	plans: StripePlan[];
-};
+	plans: PolarPlan[];
+}
 
 export type ResendConfig = {
 	/** Email address for transactional emails (e.g., noreply@example.com) */
@@ -66,8 +66,8 @@ export type Config = {
 	domainName: string;
 	/** Authentication configuration */
 	auth: AuthConfig;
-	/** Stripe payments configuration */
-	stripe: StripeConfig;
+	/** Polar payments configuration */
+	polar: PolarConfig;
 	/** Resend email configuration */
 	resend: ResendConfig;
 	/** SEO defaults configuration */

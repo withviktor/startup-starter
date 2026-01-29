@@ -46,15 +46,17 @@ export function Header() {
 						<Skeleton className="h-9 w-32 rounded-full bg-muted" />
 					) : session ? (
 						<div className="flex items-center gap-3">
-							<Avatar className="size-8 ring-2 ring-primary/20">
-								<AvatarImage
-									src={session.user.image || ""}
-									alt={session.user.name}
-								/>
-								<AvatarFallback className="bg-primary/10 text-xs">
-									{session.user.name?.[0]?.toUpperCase()}
-								</AvatarFallback>
-							</Avatar>
+							<div className="relative">
+								<Avatar className="size-8 ring-2 ring-primary/20">
+									<AvatarImage
+										src={session.user.image || ""}
+										alt={session.user.name}
+									/>
+									<AvatarFallback className="bg-primary/10 text-xs">
+										{session.user.name?.[0]?.toUpperCase()}
+									</AvatarFallback>
+								</Avatar>
+							</div>
 							<Button
 								variant="ghost"
 								size="sm"

@@ -21,24 +21,24 @@
 		"db:migrate": "prisma migrate dev --schema prisma/schema"
 	},
 	"dependencies": {
-		"@better-auth/stripe": "v1.4.1",
 		"@nestjs/common": "^11.0.1",
 		"@nestjs/core": "^11.0.1",
 		"@nestjs/platform-express": "^11.0.1",
 		"@nestjs/swagger": "^11.2.4",
+		"@polar-sh/better-auth": "^1.6.4",
+		"@polar-sh/sdk": "^0.42.5",
 		"@prisma/adapter-pg": "^7.2.0",
 		"@prisma/client": "^7.2.0",
 		"@scalar/nestjs-api-reference": "^1.0.15",
 		"@startup-starter/config": "workspace:*",
 		"@startup-starter/env": "workspace:*",
 		"@startup-starter/transactional": "workspace:*",
-		"@thallesp/nestjs-better-auth": "^2.2.0",
-		"better-auth": "v1.4.1",
+		"@thallesp/nestjs-better-auth": "^2.2.5",
+		"better-auth": "^1.4.17",
 		"nestjs-resend": "^1.1.0",
 		"pg": "^8.16.3",
 		"reflect-metadata": "^0.2.2",
-		"rxjs": "^7.8.1",
-		"stripe": "^20.2.0"
+		"rxjs": "^7.8.1"
 	},
 	"devDependencies": {
 		"@nestjs/cli": "^11.0.0",

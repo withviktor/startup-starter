@@ -21,6 +21,8 @@ export const env = createEnv({
 		// Stripe (optional - only required if enabled in config)
 		STRIPE_SECRET_KEY: z.string().optional(),
 		STRIPE_WEBHOOK_SECRET: z.string().optional(),
+		POLAR_ACCESS_TOKEN: z.string().optional(),
+		POLAR_WEBHOOK_SECRET: z.string().optional(),
 		// Resend
 		RESEND_API_KEY: z.string(),
 	},
