@@ -5,6 +5,8 @@ import { AppController } from "./app.controller";
 import { AppService } from "./app.service";
 import { SignUpHook } from "./hooks/sign-up.hook";
 import { auth } from "./lib/auth";
+import { MagicLinkEmailProvider } from "./lib/magic-link-email.provider";
+import { OrgInviteEmailProvider } from "./lib/org-invite-email.provider";
 import { PrismaProvider } from "./prisma.service";
 
 @Module({
@@ -17,7 +19,7 @@ import { PrismaProvider } from "./prisma.service";
 		}),
 	],
 	controllers: [AppController],
-	providers: [AppService, PrismaProvider, SignUpHook],
+	providers: [AppService, PrismaProvider, SignUpHook, MagicLinkEmailProvider, OrgInviteEmailProvider],
 	exports: [PrismaProvider],
 })
 export class AppModule {}

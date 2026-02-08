@@ -11,12 +11,18 @@ export const config: Config = {
 
 	// Auth (better-auth)
 	auth: {
-		emailPassword: true,
-		magicLink: false,
+		emailPassword: false,
+		magicLink: true,
 		providers: {
 			google: false,
 			github: false,
 		},
+	},
+
+	// Organization
+	organization: {
+		enabled: true,
+		membersCanInvite: false,
 	},
 
 	// Polar
@@ -45,9 +51,9 @@ export const config: Config = {
 
 	// Resend (Email)
 	resend: {
-		fromNoreply: "noreply@example.com",
-		fromAdmin: "admin@example.com",
-		supportEmail: "support@example.com",
+		fromNoreply: "noreply@startup.bylinemark.com",
+		fromAdmin: "admin@startup.bylinemark.com",
+		supportEmail: "support@startup.bylinemark.com",
 	},
 
 	// SEO defaults

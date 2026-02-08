@@ -57,6 +57,13 @@ export type SeoConfig = {
 	ogImage: string;
 };
 
+export type OrganizationConfig = {
+	/** Enable organization/team support */
+	enabled: boolean;
+	/** Allow regular members to invite others */
+	membersCanInvite: boolean;
+};
+
 export type Config = {
 	/** Application name */
 	appName: string;
@@ -66,6 +73,8 @@ export type Config = {
 	domainName: string;
 	/** Authentication configuration */
 	auth: AuthConfig;
+	/** Organization configuration */
+	organization: OrganizationConfig;
 	/** Polar payments configuration */
 	polar: PolarConfig;
 	/** Resend email configuration */

@@ -1,5 +1,6 @@
 "use client";
 
+import { AuthProvider } from "./auth-provider";
 import { ThemeProvider } from "./theme-provider";
 import { Toaster } from "./ui/sonner";
 
@@ -11,8 +12,10 @@ export default function Providers({ children }: { children: React.ReactNode }) {
 			enableSystem
 			disableTransitionOnChange
 		>
-			<Toaster richColors />
-			{children}
+			<AuthProvider>
+				<Toaster richColors />
+				{children}
+			</AuthProvider>
 		</ThemeProvider>
 	);
 }

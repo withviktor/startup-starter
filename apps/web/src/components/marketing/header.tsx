@@ -70,14 +70,9 @@ export function Header() {
 							</Button>
 						</div>
 					) : (
-						<div className="flex items-center gap-2">
-							<Button variant="ghost" size="sm" asChild>
-								<Link href="/sign-in">Sign in</Link>
-							</Button>
-							<Button size="sm" className="rounded-full px-4" asChild>
-								<Link href="/sign-up">Get started</Link>
-							</Button>
-						</div>
+						<Button size="sm" className="rounded-full px-4" asChild>
+							<Link href="/">Get started</Link>
+						</Button>
 					)}
 				</div>
 
@@ -128,29 +123,11 @@ export function Header() {
 								Sign out
 							</Button>
 						) : (
-							<>
-								<Button
-									variant="ghost"
-									size="sm"
-									className="justify-start"
-									asChild
-								>
-									<Link
-										href="/sign-in"
-										onClick={() => setMobileMenuOpen(false)}
-									>
-										Sign in
-									</Link>
-								</Button>
-								<Button size="sm" className="rounded-full" asChild>
-									<Link
-										href="/sign-up"
-										onClick={() => setMobileMenuOpen(false)}
-									>
-										Get started
-									</Link>
-								</Button>
-							</>
+							<Button size="sm" className="rounded-full" asChild>
+								<Link href="/" onClick={() => setMobileMenuOpen(false)}>
+									Get started
+								</Link>
+							</Button>
 						)}
 					</div>
 				</div>

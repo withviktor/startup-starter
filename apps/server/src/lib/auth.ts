@@ -8,8 +8,36 @@ import { config } from "@startup-starter/config";
 import { env } from "@startup-starter/env/server";
 import { betterAuth } from "better-auth";
 import { prismaAdapter } from "better-auth/adapters/prisma";
-import { openAPI } from "better-auth/plugins";
+import { magicLink, openAPI, organization } from "better-auth/plugins";
 import prisma from "./prisma";
+
+// Email sender function - will be set by NestJS module
+let sendMagicLinkEmail: ((params: { email: string; url: string }) => Promise<void>) | null = null;
+
+export function setSendMagicLinkEmail(fn: (params: { email: string; url: string }) => Promise<void>) {
+	sendMagicLinkEmail = fn;
+}
+
+// Org invite email sender - will be set by NestJS module
+let sendOrgInviteEmail: ((params: { email: string; orgName: string; inviterName: string; acceptUrl: string }) => Promise<void>) | null = null;
+
+export function setSendOrgInviteEmail(fn: (params: { email: string; orgName: string; inviterName: string; acceptUrl: string }) => Promise<void>) {
+	sendOrgInviteEmail = fn;
+}
+
+// Convert backend magic link URL to frontend verification URL
+function convertToFrontendUrl(backendUrl: string): string {
+	const url = new URL(backendUrl);
+	const token = url.searchParams.get("token");
+	const callbackURL = url.searchParams.get("callbackURL") || "/";
+
+	// Build frontend verification URL
+	const frontendUrl = new URL("/verify", env.CORS_ORIGIN);
+	if (token) frontendUrl.searchParams.set("token", token);
+	frontendUrl.searchParams.set("callbackURL", callbackURL);
+
+	return frontendUrl.toString();
+}
 
 // Build social providers based on config
 type SocialProvider = {
@@ -63,7 +91,7 @@ export const auth = betterAuth({
 		provider: "postgresql",
 	}),
 	emailAndPassword: {
-		enabled: config.auth.emailPassword,
+		enabled: config.auth.emailPassword && !config.auth.magicLink,
 	},
 	socialProviders:
 		socialProviders.length > 0
@@ -81,6 +109,41 @@ export const auth = betterAuth({
 	plugins: [
 		openAPI({
 			disableDefaultReference: true,
+		}),
+		...(config.auth.magicLink
+			? [
+					magicLink({
+						expiresIn: 60 * 10, // 10 minutes
+						sendMagicLink: async ({ email, url }) => {
+							if (sendMagicLinkEmail) {
+								try {
+									// Convert to frontend URL so verification happens on frontend
+									const frontendUrl = convertToFrontendUrl(url);
+									await sendMagicLinkEmail({ email, url: frontendUrl });
+								} catch (error) {
+									throw new Error(`Failed to send magic link email: ${error}`);
+								}
+							} else {
+								throw new Error("Email sender not configured");
+							}
+						},
+					}),
+				]
+			: []),
+		organization({
+			sendInvitationEmail: async ({ email, organization: org, inviter }) => {
+				if (sendOrgInviteEmail) {
+					const acceptUrl = new URL("/org/accept-invite", env.CORS_ORIGIN);
+					await sendOrgInviteEmail({
+						email,
+						orgName: org.name,
+						inviterName: inviter.user.name || inviter.user.email,
+						acceptUrl: acceptUrl.toString(),
+					});
+				} else {
+					throw new Error("Org invite email sender not configured");
+				}
+			},
 		}),
 		polar({
 			client: polarClient,
